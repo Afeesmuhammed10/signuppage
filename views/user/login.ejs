@@ -1,21 +1,26 @@
 <link rel="stylesheet" href="/public/styles/user/userStyle.css">
 <div class="container" id="container">
 	<div class="form-container sign-up-container">
-		<form action="#">
+		<form action="/signup" method="post">
 			<h1>Create Account</h1>
 			<input type="text" placeholder="Name" name="name" required/>
 			<input type="email" placeholder="Email" name="email" required />
-			<input type="password" placeholder="Password" name="pasword" required />
+			<input type="password" placeholder="Password" name="password" required/>
 			<button>Sign Up</button>
 		</form>
 	</div>
 	<div class="form-container sign-in-container">
-		<form action="#">
+		<form action="/login" method="post">
 			<h1>Sign in</h1>
 			
 			<input type="email" placeholder="Email" name="email" required/>
 			<input type="password" placeholder="Password" name="password" required/>
+			<%if(locals.err){%>
+				<p style="color: red;"><%=locals.err%></p>
+			<%}%>
+
 			<a href="#">Forgot your password?</a>
+			
 			<button>Sign In</button>
 		</form>
 	</div>

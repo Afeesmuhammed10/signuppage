@@ -39,7 +39,7 @@ const userLogin = async (req,res)=>{
        console.log(passwordmatch)
        
        if(passwordmatch){
-            req.session.id = userdata._id;
+            req.session.userId = userdata._id;
             res.redirect('/home')
             console.log("login success")
        }else{

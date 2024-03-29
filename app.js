@@ -6,8 +6,10 @@ const session = require('express-session')
 const userRouter = require('./routes/userRoutes');
 const { connection } = require('./connection/connection');
 const uuid = require('uuid')
+const nocache = require('nocache')
 const randomSectret = uuid.v4();
 console.log(randomSectret)
+app.use(nocache())
 app.use(express.json());
 app.use(express.urlencoded({extended:true}))
 app.use(session({

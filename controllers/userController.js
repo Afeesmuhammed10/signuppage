@@ -2,14 +2,13 @@ const User = require('../models/userSchema')
 const bcrypt = require('bcrypt')
 
 
-
-
-
 //get home page
-
-const getHome = (req,res) =>{
-
-    res.render('user/home',)
+const getHome = async (req,res) =>{
+    console.log(req.session.userId)
+    const userdata = await User.findById(req.session.userId)
+    console.log(userdata)
+    res.render('user/home',{user:userdata})
+   
 }
 
 
@@ -42,7 +41,7 @@ const userLogin = async (req,res)=>{
        
        if(passwordmatch){
             req.session.userId = userdata._id;
-            res.redirect('/')
+            res.redirect("/")
             console.log("login success")
        }else{
         res.render('user/login',{err:"invalid email or password"})

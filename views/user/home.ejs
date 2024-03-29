@@ -15,9 +15,55 @@
     </div>
 
     <div class="btns">
-        <a href="" class="btn btn-primary update">Update Profile</a>
+        <a href="" class="btn btn-primary update" data-bs-toggle="modal" data-bs-target="#exampleModal">Update Profile</a>
         <a href="/logout" class="btn btn-danger logout">Logout</a>
     </div>
 </div>
 
+<!-- Modal -->
+
+  
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Update Profile</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="mb-3">
+              <label for="recipient-name" class="col-form-label">Name:</label>
+              <input type="text" class="form-control" id="recipient-name" name="name" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="name" class="col-form-label">Email:</label>
+                <input type="text" class="form-control" id="recipient-name" name="email" required>
+              </div>
+
+              <div class="mb-3">
+                <label for="phone" class="col-form-label">Phone:</label>
+                <input type="text" class="form-control" id="recipient-name" name="phone" required>
+              </div>
+              <div class="mb-3">
+                <label for="image" class="col-form-label" >Image:</label>
+                <input type="file" class="form-control" id="recipient-name" name="image" required>
+              </div>
+            <div class="mb-3">
+              
+              
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save Changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
 <%-include("../layouts/footer")%>
+

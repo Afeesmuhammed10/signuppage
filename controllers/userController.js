@@ -8,7 +8,8 @@ const bcrypt = require('bcrypt')
 //get home page
 
 const getHome = (req,res) =>{
-    res.render('user/home')
+
+    res.render('user/home',)
 }
 
 
@@ -18,11 +19,12 @@ const getLogin = (req,res)=>{
 }
 //sign up
 const signup = async (req,res)=>{
-    const {name,email,password} = req.body
+    const {name,email,phone,password} = req.body
     const hashedPassword = await bcrypt.hash(password,10)
     const user = await User.create({
         name:name,
         email:email,
+        phone:phone,
         password:hashedPassword
     })
     console.log(user)
@@ -40,7 +42,7 @@ const userLogin = async (req,res)=>{
        
        if(passwordmatch){
             req.session.userId = userdata._id;
-            res.redirect('/home')
+            res.redirect('/')
             console.log("login success")
        }else{
         res.render('user/login',{err:"invalid email or password"})

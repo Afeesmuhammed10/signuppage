@@ -7,4 +7,5 @@ router.get('/login',usermiddleware.redirectHome,userController.getLogin)
 router.post('/signup',userController.signup)
 router.post('/login',userController.userLogin)
 router.get('/',usermiddleware.auth,userController.getHome)
+router.get('/logout',userController.userLogout)
 module.exports = router

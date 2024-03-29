@@ -42,7 +42,7 @@ const userLogin = async (req,res)=>{
        if(passwordmatch){
             req.session.userId = userdata._id;
             res.redirect("/")
-            console.log("login success")
+            console.log("user login success")
        }else{
         res.render('user/login',{err:"invalid email or password"})
         console.log("login error")
@@ -52,9 +52,13 @@ const userLogin = async (req,res)=>{
 }
 
 
+//logout
 
-
-
+const userLogout = (req,res)=>{
+    req.session.destroy();
+    console.log("user logout suucessfully")
+    res.redirect('/login')
+}
 
 
 
@@ -65,5 +69,6 @@ module.exports ={
     getLogin,
     signup,
     userLogin,
-    getHome
+    getHome,
+    userLogout
 }

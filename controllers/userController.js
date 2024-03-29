@@ -1,5 +1,6 @@
 const User = require('../models/userSchema')
 const bcrypt = require('bcrypt')
+const multer = require('multer')
 
 
 //get home page
@@ -60,6 +61,26 @@ const userLogout = (req,res)=>{
     res.redirect('/login')
 }
 
+const userDataUpload = async(req,res)=>{
+    console.log(req.body)
+    console.log(req.file)
+    const {name,email,phone} = req.body
+   const userdata = await User.findByIdAndUpdate(
+    {_id:req.session.userId},
+    {
+        $set:{
+            name:name,
+            email:email,
+            phone:phone,
+            image:req.file.filename
+        }
+    }
+   )
+    console.log(userdata)
+   res.redirect('/')
+    
+}
+
 
 
 
@@ -70,5 +91,6 @@ module.exports ={
     signup,
     userLogin,
     getHome,
-    userLogout
+    userLogout,
+    userDataUpload
 }

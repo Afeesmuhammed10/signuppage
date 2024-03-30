@@ -3,7 +3,7 @@ const app = express();
 const PORT = 3000;
 const path = require('path');
 const session = require('express-session');
-
+const adminRouter = require("./routes/adminRoutes")
 const userRouter = require('./routes/userRoutes');
 const { connection } = require('./connection/connection');
 const uuid = require('uuid');
@@ -28,7 +28,8 @@ app.use("/public", express.static(path.join(__dirname, "public")));
 connection()
 
 //userRouter
-app.use("/",userRouter)
+app.use("/",userRouter);
+app.use("/admin",adminRouter);
 
 
 

@@ -39,4 +39,89 @@
       </nav>
 </header>
 
+<main>
+    <a  class="btn btn-success float-end me-4 mt-3" data-bs-toggle="modal" data-bs-target="#exampleModal">add new user</a>
+
+    <div class="container">
+
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Image</th>
+                <th scope="col">Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Phone</th>
+                <th scope="col">Update</th>
+                <th scope="col">Delete</th>
+              </tr>
+            </thead>
+            <tbody>
+                <%users.forEach((user)=>{%>
+              <tr  style="align-items: center;">
+                <th scope="row">
+                    <%if(user.image){%>
+                        <img width="80px" height="80px" style="border-radius: 100%;" src="/public/images/<%=user.image%>" alt=""
+                    <%}%>
+                    <img width="80px" height="80px" style="border-radius: 100%;" src="/public/images/1711727025368-unknown(2jpg.jpg" alt="">
+                </th>
+                <td><%=user.name%></td>
+                <td><%=user.email%></td>
+                <td><%=user.phone%></td>
+                <td><a class="btn btn-primary" href="/admin/update/<%= user._id%>">Update</a></td>
+                <td><a class="btn btn-danger" href="/admin/delete/<%= user._id %>">Delete</a></td>
+
+              </tr>
+             <%})%>
+            </tbody>
+          </table>
+    </div>
+
+<!-- Modal -->
+
+  
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Update Profile</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="/admin/userupload" method="post" enctype="multipart/form-data">
+          <div class="mb-3">
+            <label for="recipient-name" class="col-form-label">Name:</label>
+            <input type="text" class="form-control" id="recipient-name" name="name"  required>
+          </div>
+
+          <div class="mb-3">
+              <label for="name" class="col-form-label">Email:</label>
+              <input type="text" class="form-control" id="recipient-name" name="email"   required>
+            </div>
+
+            <div class="mb-3">
+              <label for="phone" class="col-form-label">Phone:</label>
+              <input type="text" class="form-control" id="recipient-name" name="phone"  required>
+            </div>
+
+            <div class="mb-3">
+              <label for="phone" class="col-form-label">Phone:</label>
+              <input type="password" class="form-control" id="recipient-name" name="password"  required>
+            </div>
+            <div class="mb-3">
+              <label for="image" class="col-form-label" >Image:</label>
+              <input type="file" class="form-control" id="recipient-name" name="image">
+            </div>
+         <button  type="submit" class="btn btn-primary"  data-bs-dismiss="modal">Add User</button>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+       
+      </div>
+    </div>
+  </div>
+</div>
+
+</main>
+
 <%-include("../layouts/footer")%>

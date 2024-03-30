@@ -1,0 +1,33 @@
+
+<%- include("../layouts/header")%>
+
+<div class="container">
+    <form action="/admin/userupdate/<%=user._id%>" method="post" enctype="multipart/form-data">
+        <div class="mb-3">
+          <label for="recipient-name" class="col-form-label">Name:</label>
+          <input type="text" class="form-control" id="recipient-name" name="name" value= "<%=user.name%>" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="name" class="col-form-label">Email:</label>
+            <input type="text" class="form-control" id="recipient-name" name="email" value= "<%=user.email%>" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="phone" class="col-form-label">Phone:</label>
+            <input type="text" class="form-control" id="recipient-name" name="phone" value= "<%=user.phone%>" required>
+          </div>
+
+          <div class="img">
+            <img width="150px" height="150px" src="/public/images/<%= user.image%>" alt="">
+          </div>
+          <div class="mb-3">
+            <label for="image" class="col-form-label" >Image:</label>
+            <input type="file" class="form-control" id="recipient-name" name="image"  value= "<%=user.image%>" >
+          </div>
+       <button  type="submit" class="btn btn-primary"  data-bs-dismiss="modal">Save Changes</button>
+      </form>
+</div>
+
+<%- include("../layouts/footer")%>
+

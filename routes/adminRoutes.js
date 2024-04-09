@@ -22,5 +22,7 @@ router.get('/delete/:id', adminController.deleteUser);
 router.get("/update/:id",adminController.getUpdate)
 router.post("/userupdate/:id",upload.single('image'),adminController.updateUser)
 router.post("/userupload",upload.single('image'),adminController.addNewUser)
+router.get("/users",adminmiddleware.checkAdminAuth,adminController.search)
+router.get("/logout",adminController.adminLogout)
 
 module.exports = router;

@@ -17,6 +17,7 @@ const storage = multer.diskStorage({
   const upload = multer({ storage: storage });
 
 router.get('/login',usermiddleware.redirectHome,userController.getLogin)
+router.get('/signup',usermiddleware.redirectHome,userController.getSignup)
 router.post('/signup',userController.signup)
 router.post('/login',userController.userLogin)
 router.get('/',usermiddleware.auth,userController.getHome)

@@ -1,5 +1,6 @@
 const Admin = require('../models/adminSchema')
 const User = require('../models/userSchema')
+const bcrypt = require('bcrypt')
 
 
 const getAdminDash = async(req,res) =>{
@@ -36,6 +37,7 @@ const deleteUser= async(req,res) =>{
 
     if(deleteUser){
         console.log(`user : ${userId} deleted successfully...`);
+        req.session.userId = null 
         res.redirect('/admin')
     }
 }
@@ -54,6 +56,10 @@ const updateUser = async (req,res)=>{
     console.log(req.body)
     console.log(req.file)
 
+    if (req.file) {
+        image = req.file.filename;
+    } 
+
     const userUpdate = await User.findByIdAndUpdate(
         {_id:userId},
         {
@@ -61,7 +67,7 @@ const updateUser = async (req,res)=>{
                 name:name,
                 email:email,
                 phone:phone,
-                image:req.file.filename
+                image:image
             }
         }
     )
@@ -73,17 +79,53 @@ const updateUser = async (req,res)=>{
 
 const addNewUser = async(req,res)=>{
     const {name,email,phone,password} = req.body
+    const hashedPassword = await bcrypt.hash(password,10)
+    if (req.file) {
+        image = req.file.filename;
+    } else {
+        image = "unknown(2jpg.jpg";
+    }
+    
     const newUser = await User.create({
-        name:name,
-        email:email,
-        phone:phone,
-        password:password,
-        image:req.file.filename
-    })
+        name: name,
+        email: email,
+        phone: phone,
+        password: hashedPassword,
+        image: image
+    });
+    
     console.log(newUser)
     res.redirect('/admin')
 }
 
+
+const search = async (req,res)=>{
+   
+    console.log(req.query.data)
+ const searchData =req.query.data
+
+    const searchResult =await  User.find(
+        {
+            $or:[
+                {
+                    name:{$regex:new RegExp(searchData,'i') }
+                },
+                {
+                    phone:{$regex:new RegExp(searchData,'i') }
+                }
+            ]
+        }
+    ) 
+
+    console.log(searchResult)
+    res.render("admin/adminDash", { users: searchResult, searchdata: req.query.data });
+}
+
+const adminLogout = (req,res) =>{
+    delete req.session.adminId
+    console.log("admin logout successfully")
+    res.redirect("/admin/login")
+}
 
 
 
@@ -96,5 +138,7 @@ module.exports = {
     deleteUser,
     getUpdate,
     updateUser,
-    addNewUser
+    addNewUser,
+    search,
+    adminLogout
 }

@@ -30,10 +30,15 @@
               </li>
              
             </ul>
-            <form class="d-flex" role="search">
-              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-              <button class="btn btn-outline-success" type="submit">Search</button>
+            <form class="d-flex" type="search" action="/admin/users" role="search" method="GET" >
+              <%if(locals.searchdata){%>
+              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"  value="<%=locals.searchdata%>" name="data">
+              <%}else{%>
+              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"  value="" name="data">
+              <%}%>
+              <button style="margin-right: 20px;" class="btn btn-outline-success" type="submit">Search</button>
             </form>
+            <a href="/admin/logout" class="btn btn-danger">logout</a>
           </div>
         </div>
       </nav>
@@ -83,11 +88,11 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Update Profile</h1>
+        <h1 class="modal-title fs-5" id="exampleModalLabel">add new user</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form action="/admin/userupload" method="post" enctype="multipart/form-data">
+        <form action="/admin/userupload" method="post" enctype="multipart/form-data" id="form">
           <div class="mb-3">
             <label for="recipient-name" class="col-form-label">Name:</label>
             <input type="text" class="form-control" id="recipient-name" name="name"  required>
@@ -95,18 +100,19 @@
 
           <div class="mb-3">
               <label for="name" class="col-form-label">Email:</label>
-              <input type="text" class="form-control" id="recipient-name" name="email"   required>
+              <input type="text" class="form-control" id="recipient-name" name="email" id="email"   required>
             </div>
-
+            <p class="text-danger" id="emailErr"></p>
             <div class="mb-3">
               <label for="phone" class="col-form-label">Phone:</label>
-              <input type="text" class="form-control" id="recipient-name" name="phone"  required>
+              <input type="text" class="form-control" id="recipient-name" name="phone" id="phone"  required>
             </div>
-
+            <p class="text-danger" id="phoneErr"></p>
             <div class="mb-3">
-              <label for="phone" class="col-form-label">Phone:</label>
-              <input type="password" class="form-control" id="recipient-name" name="password"  required>
+              <label for="phone" class="col-form-label">Password:</label>
+              <input type="password" class="form-control" id="recipient-name" name="password" id="password"  required>
             </div>
+            <p class="text-danger" id="passwordErr"></p>
             <div class="mb-3">
               <label for="image" class="col-form-label" >Image:</label>
               <input type="file" class="form-control" id="recipient-name" name="image">
@@ -124,4 +130,57 @@
 
 </main>
 
+
+<script>
+  const form = document.getElementById("form")
+  const emailErr = document.getElementById("emailErr")
+  const phoneErr = document.getElementById("phoneErr")
+  const passwordErr = document.getElementById("passwordErr")
+  let err = false
+
+  form.addEventListener('submit',(e)=>{
+      const email = document.getElementById("email").value
+      const phone = document.getElementById("phone").value
+      const password = document.getElementById("password").value.trim()
+      //email validation
+      emailValidate(email)
+      phoneValidate(phone)
+      passwordValidate(password)
+      if(err){
+          e.preventDefault()
+      }
+      //phone validation
+      
+  })
+
+ function emailValidate(email){
+  let reg = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+
+  const result = reg.test(email)
+  if(!result){
+      emailErr.innerHTML = "check entered email is correct"
+      err = true
+  }
+ }
+
+ function phoneValidate(phone){
+   if(phone.length<10){
+      
+      phoneErr.innerHTML = "check entered phone number is correct"
+      err = true
+   }
+ }
+
+ function passwordValidate(password){
+   if(password.length<8){
+      passwordErr.innerHTML = "check entered password is correct"
+      err = true
+   }
+ }
+  
+</script>
+
+
+
 <%-include("../layouts/footer")%>
+

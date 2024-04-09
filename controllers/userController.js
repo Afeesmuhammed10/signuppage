@@ -17,18 +17,31 @@ const getHome = async (req,res) =>{
 const getLogin = (req,res)=>{
     res.render('user/login')
 }
+
+const getSignup = (req,res)=>{
+    res.render('user/signup')
+}
 //sign up
 const signup = async (req,res)=>{
     const {name,email,phone,password} = req.body
     const hashedPassword = await bcrypt.hash(password,10)
-    const user = await User.create({
-        name:name,
-        email:email,
-        phone:phone,
-        password:hashedPassword
-    })
-    console.log(user)
-    res.redirect('/')
+
+    const isEmailexists = await User.findOne({email:email});
+
+    if(!isEmailexists){
+        const user = await User.create({
+            name:name,
+            email:email,
+            phone:phone,
+            password:hashedPassword
+        })
+        console.log(user)
+        res.redirect('/')
+    }else{
+       
+        console.log(isEmailexists)
+        res.render('user/login',{emailerr:"Entered Email is already exists"})
+    }
 }
 //userlogin
 const userLogin = async (req,res)=>{
@@ -45,10 +58,13 @@ const userLogin = async (req,res)=>{
             res.redirect("/")
             console.log("user login success")
        }else{
-        res.render('user/login',{err:"invalid email or password"})
+        res.render('user/login',{emailErr:"check your password is correct"})
         console.log("login error")
        }
-    }
+    }else{
+        res.render('user/login',{passwordErr:"check your email is correct"})
+        console.log("login error")
+       }
 
 }
 
@@ -56,7 +72,7 @@ const userLogin = async (req,res)=>{
 //logout
 
 const userLogout = (req,res)=>{
-    req.session.destroy();
+    delete req.session.userId
     console.log("user logout suucessfully")
     res.redirect('/login')
 }
@@ -65,6 +81,9 @@ const userDataUpload = async(req,res)=>{
     console.log(req.body)
     console.log(req.file)
     const {name,email,phone} = req.body
+    if (req.file) {
+        image = req.file.filename;
+    } 
    const userdata = await User.findByIdAndUpdate(
     {_id:req.session.userId},
     {
@@ -72,7 +91,7 @@ const userDataUpload = async(req,res)=>{
             name:name,
             email:email,
             phone:phone,
-            image:req.file.filename
+            image:image
         }
     }
    )
@@ -88,6 +107,7 @@ const userDataUpload = async(req,res)=>{
 
 module.exports ={
     getLogin,
+    getSignup,
     signup,
     userLogin,
     getHome,

@@ -1,37 +1,46 @@
 <%-include("../layouts/header")%>
-<body>  
-<link rel="stylesheet" href="/public/styles/user/login.css">
+<body>
+    <link rel="stylesheet" href="/public/styles/user/signup.css">
     <div class="container">
-        <h1>Login</h1>
-        <form action="/login" method="post" id="form">
-            <input type="email" placeholder="Email" name="email" id="email" required/>
+        <h1>Create Account</h1>
+        <form action="/signup" method="post" id="form">
+            <div class="form-group">
+                <input type="text" placeholder="Name" name="name" required/>
+            </div>
+            <div class="form-group">
+                <input type="email" placeholder="Email" id="email" name="email" required />
+            </div>
             <p class="text-danger" id="emailErr"></p>
-            <%if(locals.emailErr){%>
-            <p><%=emailErr%></p>
-            <%}%>
-            <input type="password" placeholder="Password" name="password" id="password" required/>
-            <p class="text-danger" id="passwordErr"></p>
-            <%if(locals.passwordErr){%>
-                <p><%=passwordErr%></p>
-                <%}%>
-            <button type="submit">Sign In</button>
+            <div class="form-group">
+                <input type="number" placeholder="Phone Number" id="phone" name="phone" required />
+            </div>
+            <p class="text-danger"  id="phoneErr"></p>
+            <div class="form-group">
+                <input type="password" placeholder="Password" id="password" name="password" required/>
+            </div>
+            <p class="text-danger"  id="passwordErr"></p>
+
+            <button type="submit">Sign Up</button>
         </form>
         <div class="links">
-            <a href="/signup">Create an account</a>
+            <a href="/login">already have an account? please login</a>
         </div>
     </div>
 
     <script>
         const form = document.getElementById("form")
         const emailErr = document.getElementById("emailErr")
+        const phoneErr = document.getElementById("phoneErr")
         const passwordErr = document.getElementById("passwordErr")
         let err = false
 
         form.addEventListener('submit',(e)=>{
             const email = document.getElementById("email").value
+            const phone = document.getElementById("phone").value
             const password = document.getElementById("password").value.trim()
             //email validation
             emailValidate(email)
+            phoneValidate(phone)
             passwordValidate(password)
             if(err){
                 e.preventDefault()
@@ -50,6 +59,14 @@
         }
        }
 
+       function phoneValidate(phone){
+         if(phone.length<10){
+            
+            phoneErr.innerHTML = "check entered phone number is correct"
+            err = true
+         }
+       }
+
        function passwordValidate(password){
          if(password.length<8){
             passwordErr.innerHTML = "check entered password is correct"
@@ -59,8 +76,4 @@
         
     </script>
 
-
-
-
     <%-include("../layouts/footer")%>
- 

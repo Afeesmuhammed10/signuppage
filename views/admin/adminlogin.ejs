@@ -1,17 +1,19 @@
-
+<%-include("../layouts/header")%>
 <link rel="stylesheet" href="/public/styles/admin/adminlogin.css">
 <div class="container">
     <div class="screen">
       <div class="screen__content">
-        <form class="login" action="/admin/adminlogin" method="post">
+        <form class="login" action="/admin/adminlogin" method="post" id="form">
           <div class="login__field">
             <i class="login__icon fas fa-user"></i>
-            <input type="text" class="login__input" placeholder="Email" name="email">
+            <input type="text" class="login__input" placeholder="Email" name="email" id="email">
           </div>
+          <p class="text-danger" id="emailErr"></p>
           <div class="login__field">
             <i class="login__icon fas fa-lock"></i>
-            <input type="password" class="login__input" placeholder="Password" name="password">
+            <input type="password" class="login__input" placeholder="Password" name="password" id="password">
           </div>
+          <p class="text-danger" id="passwordErr"></p>
           <% if (locals.err) { %>
             <p class="text-danger"><%=err%></p>
         <% } %>
@@ -37,3 +39,43 @@
       </div>		
     </div>
   </div>
+
+  <script>
+    const form = document.getElementById("form")
+    const emailErr = document.getElementById("emailErr")
+    const passwordErr = document.getElementById("passwordErr")
+    let err = false
+
+    form.addEventListener('submit',(e)=>{
+        const email = document.getElementById("email").value
+        const password = document.getElementById("password").value.trim()
+        //email validation
+        emailValidate(email)
+        passwordValidate(password)
+        if(err){
+            e.preventDefault()
+        }
+        //phone validation
+        
+    })
+
+   function emailValidate(email){
+    let reg = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+
+    const result = reg.test(email)
+    if(!result){
+        emailErr.innerHTML = "check entered email is correct"
+        err = true
+    }
+   }
+
+   function passwordValidate(password){
+     if(password.length<8){
+        passwordErr.innerHTML = "check entered password is correct"
+        err = true
+     }
+   }
+    
+</script>
+
+<%-include("../layouts/footer")%>

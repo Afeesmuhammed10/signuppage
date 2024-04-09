@@ -19,7 +19,11 @@
           </div>
 
           <div class="img">
+          <%if(user.image){%>
             <img width="150px" height="150px" src="/public/images/<%= user.image%>" alt="">
+          <%}else{%>
+          <img width="150px" height="150px" src="/public/images/1711727025368-unknown(2jpg.jpg" alt="">
+          <%}%>
           </div>
           <div class="mb-3">
             <label for="image" class="col-form-label" >Image:</label>

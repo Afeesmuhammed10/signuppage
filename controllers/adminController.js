@@ -55,10 +55,16 @@ const updateUser = async (req,res)=>{
     const {name,email,phone} = req.body
     console.log(req.body)
     console.log(req.file)
-
+    
+    const user = await User.findById(req.session.userId)
     if (req.file) {
         image = req.file.filename;
-    } 
+    }else if(user){
+        image = user.image;
+    }
+    else {
+        image = "1711727025368-unknown(2jpg.jpg";
+    }
 
     const userUpdate = await User.findByIdAndUpdate(
         {_id:userId},
@@ -80,10 +86,15 @@ const updateUser = async (req,res)=>{
 const addNewUser = async(req,res)=>{
     const {name,email,phone,password} = req.body
     const hashedPassword = await bcrypt.hash(password,10)
+    
+    const user = await User.findById(req.session.userId)
     if (req.file) {
         image = req.file.filename;
-    } else {
-        image = "unknown(2jpg.jpg";
+    }else if(user){
+        image = user.image;
+    }
+    else {
+        image = "1711727025368-unknown(2jpg.jpg";
     }
     
     const newUser = await User.create({

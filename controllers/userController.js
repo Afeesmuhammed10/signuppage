@@ -81,9 +81,16 @@ const userDataUpload = async(req,res)=>{
     console.log(req.body)
     console.log(req.file)
     const {name,email,phone} = req.body
+    const user = await User.findById(req.session.userId)
     if (req.file) {
         image = req.file.filename;
-    } 
+    }else if(user){
+        image = user.image;
+    }
+    else {
+        image = "1711727025368-unknown(2jpg.jpg";
+    }
+    
    const userdata = await User.findByIdAndUpdate(
     {_id:req.session.userId},
     {
@@ -91,7 +98,7 @@ const userDataUpload = async(req,res)=>{
             name:name,
             email:email,
             phone:phone,
-            image:image
+           image :image
         }
     }
    )
